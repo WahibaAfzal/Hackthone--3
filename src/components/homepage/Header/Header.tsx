@@ -1,7 +1,9 @@
+import ProductList from "@/components/products/ProductList";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { integralCF } from "@/styles/fonts";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Header = () => {
@@ -16,9 +18,21 @@ const Header = () => {
             Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.
           </p>
           <div>
-            <button className="w-full md:w-52 mb-5 md:mb-12 inline-block text-center bg-black hover:bg-black/80 transition-all text-white px-14 py-4 rounded-full">
+          {/* <Link href="/components/products/ProductList"/> */}
+            {/* <button className="w-full md:w-52 mb-5 md:mb-12 inline-block text-center bg-black hover:bg-black/80 transition-all text-white px-14 py-4 rounded-full">
+           
+            
               Shop Now
-            </button>
+            </button> */}
+             {/* <Link href="/components/products/ProductList"
+               <button className="w-full md:w-52 mb-5 md:mb-12 inline-block text-center bg-black hover:bg-black/80 transition-all text-white px-14 py-4 rounded-full">
+               Shop Now
+               </button>
+               /> */}
+              
+              
+          
+
           </div>
           <div className="flex md:h-full md:max-h-11 lg:max-h-[52px] xl:max-h-[68px] items-center justify-center md:justify-start flex-wrap sm:flex-nowrap md:space-x-3 lg:space-x-6 xl:space-x-8 md:mb-[116px]">
             <div className="flex flex-col">

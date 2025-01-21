@@ -1,47 +1,96 @@
-import {
-  newArrivalsData,
-  relatedProductData,
-  topSellingData,
-} from "@/app/page";
-import ProductListSec from "@/components/common/ProductListSec";
-import BreadcrumbProduct from "@/components/product-page/BreadcrumbProduct";
-import Header from "@/components/product-page/Header";
-import Tabs from "@/components/product-page/Tabs";
-import { Product } from "@/types/product.types";
+
+
+import React from "react";
+import { client } from "@/sanity/lib/client";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const data: Product[] = [
-  ...newArrivalsData,
-  ...topSellingData,
-  ...relatedProductData,
-];
-
-export default function ProductPage({
-  params,
-}: {
-  params: { slug: string[] };
-}) {
-  const productData = data.find(
-    (product) => product.id === Number(params.slug[0])
+const getProduct = async (slug: string) => {
+  const product = await client.fetch(
+    `*[_type == "products" && _id == $slug][0]{
+      _id,
+      name,
+      description,
+      price,
+      isNew,
+      color,
+      size,
+      category,
+      discountPercent,
+      "image_url": image.asset->url
+    }`,
+    { slug }
   );
+  return product;
+};
 
-  if (!productData?.title) {
-    notFound();
+// Generate static params for all products
+export async function generateStaticParams() {
+  const products = await client.fetch(`*[_type == "products"]{ _id }`);
+  return products.map((product: any) => ({
+    slug: [product._id], // Use an array if the route includes multiple segments
+  }));
+}
+
+// Dynamic product page component
+export default async function ProductDetails({ params }: { params: { slug: string[] } }) {
+  const slug = params.slug[0]; // Extract the product ID from the slug
+  const product = await getProduct(slug);
+
+  if (!product) {
+    notFound(); // Return a 404 page if the product doesn't exist
   }
 
   return (
-    <main>
-      <div className="max-w-frame mx-auto px-4 xl:px-0">
-        <hr className="h-[1px] border-t-black/10 mb-5 sm:mb-6" />
-        <BreadcrumbProduct title={productData?.title ?? "product"} />
-        <section className="mb-11">
-          <Header data={productData} />
-        </section>
-        <Tabs />
+    <div className="container mx-auto px-4 py-8">
+      <Link href="/shop" className="text-blue-600 hover:underline">
+        ← Back to Shop
+      </Link>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="relative">
+          <Image
+            src={product.image_url}
+            alt={product.name}
+            width={500}
+            height={500}
+            className="w-full h-auto object-cover rounded-md shadow-md"
+          />
+          {product.isNew && (
+            <span className="absolute top-2 right-2 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded">
+              New
+            </span>
+          )}
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>
+          <p className="text-gray-500 text-sm mt-2">{product.description}</p>
+          <p className="text-xl font-bold text-black mt-4">${product.price}</p>
+          {product.discountPercent > 0 && (
+            <p className="text-red-500 text-sm font-medium mt-1">
+              Discount: {product.discountPercent}%
+            </p>
+          )}
+          <div className="mt-6 space-y-2">
+            <p className="text-gray-700">
+              <strong>Category:</strong> {product.category}
+            </p>
+            <p className="text-gray-700">
+              <strong>Available Colors:</strong> {product.color}
+            </p>
+            <p className="text-gray-700">
+              <strong>Sizes:</strong> {product.size}
+            </p>
+          </div>
+          <button
+            className="mt-6 bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-400 focus:ring-opacity-50 transition-colors duration-300"
+            // onClick={() => alert(`Added ${product.name} to cart!`)}
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
-      <div className="mb-[50px] sm:mb-20">
-        <ProductListSec title="You might also like" data={relatedProductData} />
-      </div>
-    </main>
+    </div>
   );
 }
+
