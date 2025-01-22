@@ -1,6 +1,7 @@
 
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,11 +13,28 @@ type Product = {
   image_url: string;
 };
 
-type CartPageProps = {
-  cart: Product[];
-};
+export default function CartPage() {
+  const [cart, setCart] = useState<Product[]>([]);
 
-export default function CartPage({ cart }: CartPageProps) {
+  // Mock API call or load cart from local storage
+  useEffect(() => {
+    // Replace this with your actual API call or local storage logic
+    const loadCart = async () => {
+      try {
+        const mockCart = [
+          { _id: "1", name: "Product 1", price: 100, quantity: 2, image_url: "/img1.jpg" },
+          { _id: "2", name: "Product 2", price: 200, quantity: 1, image_url: "/img2.jpg" },
+        ];
+        setCart(mockCart);
+      } catch (error) {
+        console.error("Failed to load cart:", error);
+      }
+    };
+
+    loadCart();
+  }, []);
+
+  // Calculate the total amount
   const calculateTotal = () => {
     return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   };
@@ -80,4 +98,3 @@ export default function CartPage({ cart }: CartPageProps) {
     </div>
   );
 }
-
