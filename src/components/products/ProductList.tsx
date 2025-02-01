@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import CartPage from "./CartPage";
+import SearchBar from "../searchBar/SearchBar";
+
 
 
 
@@ -46,6 +48,7 @@ export default function ProductList({ products }: ProductListProps) {
         <Link href="/" className="text-xl font-bold">
           MyShop
         </Link>
+        <SearchBar/>
         <button
           onClick={() => setShowCart(!showCart)}
           className="relative bg-blue-600 py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"

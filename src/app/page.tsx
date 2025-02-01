@@ -9,6 +9,7 @@ import ProductList from "@/components/products/ProductList";
 import Brands from "@/components/homepage/Brands/Brand";
 import DressStyle from "@/components/homepage/DressStyle/DressStyle";
 import Header from "@/components/homepage/Header/Header";
+// import Navbar from "@/components/navbar/NavBar";
 
 
 
@@ -34,6 +35,7 @@ export default async function Home() {
   return (
     
        <div className="container mx-auto px-4 py-8">
+      
         <Header />
         <Brands />
         <DressStyle />
