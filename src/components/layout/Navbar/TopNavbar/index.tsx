@@ -14,10 +14,10 @@ import InputGroup from "@/components/ui/input-group";
 // import ResTopNavbar from "./TopNavbar";
 import CartBtn from "./CartBtn";
 
-import ProductList from "@/components/products/ProductList";
-import ProductCard from "@/components/common/ProductCard";
-import Signin from "@/components/auth/";
-import SignIn from "@/components/auth/";
+// import ProductList from "@/components/products/ProductList";
+// import ProductCard from "@/components/common/ProductCard";
+
+
 
 const data: NavMenu = [
   {
