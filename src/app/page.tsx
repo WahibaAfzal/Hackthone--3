@@ -37,6 +37,7 @@ export default async function Home() {
        <div className="container mx-auto px-4 py-8">
       
         <Header />
+        {/* <LoginPage/> */}
         <Brands />
         <DressStyle />
         

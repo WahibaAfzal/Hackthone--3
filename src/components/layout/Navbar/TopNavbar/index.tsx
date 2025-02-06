@@ -16,8 +16,8 @@ import CartBtn from "./CartBtn";
 
 import ProductList from "@/components/products/ProductList";
 import ProductCard from "@/components/common/ProductCard";
-import Signin from "@/components/auth/Signin";
-import SignIn from "@/components/auth/Signin";
+import Signin from "@/components/auth/";
+import SignIn from "@/components/auth/";
 
 const data: NavMenu = [
   {
